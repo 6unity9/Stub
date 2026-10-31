@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Umbrella</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Play:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f3f3f1; --surface:#ffffff; --ink:#1a1a1a; --muted:#6b6b68; --line:#d6d6d2;
+  --red:#d1180f; --red-ink:#ffffff; --stripe-a:#d1180f; --stripe-b:#f3f3f1;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#121212; --surface:#1b1b1b; --ink:#ececea; --muted:#9a9a96; --line:#333330;
+    --red:#ee3328; --red-ink:#ffffff; --stripe-a:#ee3328; --stripe-b:#121212;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#121212; --surface:#1b1b1b; --ink:#ececea; --muted:#9a9a96; --line:#333330;
+  --red:#ee3328; --red-ink:#ffffff; --stripe-a:#ee3328; --stripe-b:#121212;
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Play","Segoe UI",Arial,sans-serif; line-height:1.5;
+  min-height:100vh; display:flex; flex-direction:column;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:48px 48px; background-position:-1px -1px;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace}
+header,main,footer{width:100%;max-width:960px;margin:0 auto;padding-left:24px;padding-right:24px}
+header{display:flex;justify-content:space-between;align-items:center;padding-top:28px;gap:16px;
+  font-size:.8rem;color:var(--muted)}
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink);font-weight:700;letter-spacing:.32em;font-size:.95rem}
+.brand svg{width:34px;height:34px}
+.stat{display:flex;align-items:center;gap:8px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--red);animation:blink 1.6s steps(2,start) infinite}
+@keyframes blink{50%{opacity:.15}}
+main{flex:1;display:grid;grid-template-columns:minmax(0,1fr);gap:40px;padding-top:56px;padding-bottom:56px;align-content:center}
+.hero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:40px;align-items:center}
+.logo{width:clamp(130px,24vw,220px);height:auto}
+.logo .spin{transform-origin:100px 100px;animation:turn 90s linear infinite}
+@keyframes turn{to{transform:rotate(360deg)}}
+h1{font-size:clamp(1.9rem,5vw,3.2rem);line-height:1.08;margin:0 0 14px;font-weight:700;letter-spacing:.01em}
+.lead{margin:0;color:var(--muted);max-width:48ch;font-size:1.05rem}
+.panel{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--red);padding:28px}
+.panel-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin-bottom:20px}
+.count{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.cell{border:1px solid var(--line);padding:16px 8px 12px;text-align:center;background:var(--bg)}
+.num{display:block;font-size:clamp(2rem,8vw,4rem);font-weight:700;line-height:1;color:var(--red);font-variant-numeric:tabular-nums}
+.unit{display:block;margin-top:8px;font-size:.78rem;color:var(--muted)}
+form{margin-top:28px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px}
+label{grid-column:1/-1;font-size:.9rem}
+input[type=email]{
+  font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);
+  border:1px solid var(--ink);border-radius:0;padding:14px 16px;min-width:0;width:100%
+}
+input::placeholder{color:var(--muted)}
+button{
+  font:inherit;font-weight:700;font-size:1rem;letter-spacing:.04em;cursor:pointer;
+  background:var(--red);color:var(--red-ink);border:1px solid var(--red);border-radius:0;padding:14px 26px
+}
+button:hover{filter:brightness(1.1)}
+input:focus-visible,button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.msg{grid-column:1/-1;min-height:1.4em;margin:0;font-size:.85rem}
+.msg.ok{color:var(--ink)} .msg.err{color:var(--red)}
+.note{margin:0;font-size:.8rem;color:var(--muted)}
+.hazard{height:14px;background:repeating-linear-gradient(-45deg,var(--stripe-a) 0 14px,var(--stripe-b) 14px 28px)}
+footer{padding-top:20px;padding-bottom:28px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.75rem;color:var(--muted)}
+@media (max-width:640px){
+  .hero{grid-template-columns:1fr;gap:24px;text-align:left}
+  form{grid-template-columns:1fr}
+  .panel{padding:20px}
+  header{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){.logo .spin,.dot{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <svg viewBox="0 0 420 420" aria-hidden="true"><use href="#umb"/></svg>
+    UMBRELLA
+  </div>
+  <div class="stat mono"><span class="dot"></span><span id="status">Status: quarantine, access restricted</span></div>
+</header>
+
+<main>
+  <section class="hero">
+    <svg class="logo" viewBox="0 0 420 420" role="img" aria-label="Umbrella Corporation logo">
+      <defs>
+        <g id="umb" stroke="#000" stroke-width="8" stroke-linejoin="round">
+          <path fill="#ed1c24" d="M210 210 L125 5 Q210 29 295 5 Z"/>
+          <path fill="#fff" d="M210 210 L295 5 Q338 82 415 125 Z"/>
+          <path fill="#ed1c24" d="M210 210 L415 125 Q391 210 415 295 Z"/>
+          <path fill="#fff" d="M210 210 L415 295 Q338 338 295 415 Z"/>
+          <path fill="#ed1c24" d="M210 210 L295 415 Q210 391 125 415 Z"/>
+          <path fill="#fff" d="M210 210 L125 415 Q82 338 5 295 Z"/>
+          <path fill="#ed1c24" d="M210 210 L5 295 Q29 210 5 125 Z"/>
+          <path fill="#fff" d="M210 210 L5 125 Q82 82 125 5 Z"/>
+        </g>
+      </defs>
+      <use href="#umb"/>
+    </svg>
+    <div>
+      <h1>Building a better tomorrow. Coming soon.</h1>
+      <p class="lead">The Umbrella Corporation portal is under restricted maintenance. Leave your email address and we will send your clearance the moment it opens.</p>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="t">
+    <div class="panel-head mono">
+      <span id="t">Portal opens in</span>
+      <span id="target">Opening date: —</span>
+    </div>
+    <div class="count" role="timer" aria-live="off">
+      <div class="cell"><span class="num mono" id="d">00</span><span class="unit">days</span></div>
+      <div class="cell"><span class="num mono" id="h">00</span><span class="unit">hours</span></div>
+      <div class="cell"><span class="num mono" id="m">00</span><span class="unit">minutes</span></div>
+      <div class="cell"><span class="num mono" id="s">00</span><span class="unit">seconds</span></div>
+    </div>
+
+    <form id="f" novalidate>
+      <label for="email">Email address for clearance</label>
+      <input id="email" type="email" name="email" placeholder="name@company.com" autocomplete="email" required>
+      <button type="submit">Request clearance</button>
+      <p class="msg" id="msg" role="status"></p>
+      <p class="note">Your address is used only to notify you when the portal opens.</p>
+    </form>
+  </section>
+</main>
+
+<div class="hazard" aria-hidden="true"></div>
+<footer class="mono">
+  <span>© Umbrella Corporation. All information is confidential.</span>
+  <span>Unauthorized access is prohibited.</span>
+</footer>
+
+<script>
+// Opening date: 250 days from 31 Oct 2026. Change if needed.
+var TARGET = new Date("2029-03-03T00:00:00");
+
+var pad = function(n){ return String(n).padStart(2, "0"); };
+var els = {d:document.getElementById("d"), h:document.getElementById("h"),
+           m:document.getElementById("m"), s:document.getElementById("s")};
+
+document.getElementById("target").textContent = "Opening date: " +
+  TARGET.toLocaleDateString("en-US", {day:"numeric", month:"long", year:"numeric"});
+
+function tick(){
+  var diff = TARGET - new Date();
+  if (diff <= 0){
+    els.d.textContent = els.h.textContent = els.m.textContent = els.s.textContent = "00";
+    document.getElementById("status").textContent = "Status: portal open";
+    clearInterval(timer);
+    return;
+  }
+  var sec = Math.floor(diff / 1000);
+  els.d.textContent = pad(Math.floor(sec / 86400));
+  els.h.textContent = pad(Math.floor(sec % 86400 / 3600));
+  els.m.textContent = pad(Math.floor(sec % 3600 / 60));
+  els.s.textContent = pad(sec % 60);
+}
+var timer = setInterval(tick, 1000);
+tick();
+
+var form = document.getElementById("f");
+var msg = document.getElementById("msg");
+var input = document.getElementById("email");
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  var v = input.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){
+    msg.className = "msg err";
+    msg.textContent = "Invalid address. Enter your email in the format name@company.com.";
+    input.focus();
+    return;
+  }
+  try { localStorage.setItem("umbrella-email", v); } catch (err) {}
+  msg.className = "msg ok";
+  msg.textContent = "Request received. Your clearance will be sent to " + v + " when the portal opens.";
+  input.value = "";
+});
+</script>
+</body>
+</html>
